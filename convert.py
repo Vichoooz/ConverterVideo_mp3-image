@@ -51,7 +51,9 @@ else:
                 threads=4              # Número de threads para la exportación
             )
             print(f"Video {audio_file} exportado exitosamente.")
-            # Eliminar el archivo de imagen redimensionado
+            # Eliminar los archivos
             os.remove(resized_image_file)
+            os.remove(image_file)
+            os.remove(audio_file)
         except Exception as e:
             print(f"Ocurrió un error al procesar {image_file} y {audio_file}: {e}")
