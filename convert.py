@@ -5,6 +5,13 @@ from PIL import Image, ImageOps
 # Ruta del directorio que contiene los archivos
 directory_path = "./"
 
+# Ruta de la carpeta donde se guardarán los videos
+output_directory = "./output_videos/"
+
+# Crear la carpeta de salida si no existe
+if not os.path.exists(output_directory):
+    os.makedirs(output_directory)
+
 # Obtener listas de archivos JPG y M4A
 image_files = [f for f in os.listdir(directory_path) if f.lower().endswith('.jpg')]
 audio_files = [f for f in os.listdir(directory_path) if f.lower().endswith('.m4a')]
@@ -38,8 +45,10 @@ else:
             # Añadir el audio al clip de imagen
             video_clip = image_clip.set_audio(audio)
 
+            # Definir el nombre del archivo de salida en la carpeta deseada
+            output_file = os.path.join(output_directory, audio_file + ".mp4")
+
             # Exportar el video con opciones adicionales
-            output_file = os.path.join(directory_path, audio_file+".mp4")
             video_clip.write_videofile(
                 output_file,
                 fps=24,
@@ -50,10 +59,12 @@ else:
                 preset='ultrafast',    # Preset de FFmpeg para exportación rápida
                 threads=4              # Número de threads para la exportación
             )
-            print(f"Video {audio_file} exportado exitosamente.")
-            # Eliminar los archivos
+            print(f"Video {audio_file} exportado exitosamente en {output_file}.")
+            
+            # Eliminar los archivos temporales
             os.remove(resized_image_file)
             os.remove(image_file)
             os.remove(audio_file)
+
         except Exception as e:
             print(f"Ocurrió un error al procesar {image_file} y {audio_file}: {e}")
