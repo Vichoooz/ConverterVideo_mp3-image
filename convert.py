@@ -90,6 +90,8 @@ def upload_video(file_path, title, description, tags=None, category_id="22", pri
     print(f"Video subido exitosamente. ID del video: {response['id']}")
     return f"https://www.youtube.com/watch?v={response['id']}"
 
+
+autor = "Moises Muñoz"
 # Definir ruta de salida y autenticación
 output_directory = "./output_videos/"
 SCOPES = ['https://www.googleapis.com/auth/youtube.upload']
@@ -104,8 +106,8 @@ with open("link.txt", "w") as archivo:
     for file in os.listdir(output_directory):
         if file.endswith(".mp4"):
             file_path = os.path.join(output_directory, file)
-            title = file[:-10] + " - Moises Muñoz"  # Remueve los últimos 10 caracteres
-            description = "Fotografías de Moises Muñoz con música de fondo."
+            title = file[:-10] + " - " + autor  # Remueve los últimos 10 caracteres
+            description = "Fotografías de "+autor+" con música de fondo."
             tags = ["Musica", "Fotografia", "Moises Muñoz"]
             link = upload_video(file_path, title, description, tags=tags, privacy_status="private")
             archivo.write(link + "\n")
